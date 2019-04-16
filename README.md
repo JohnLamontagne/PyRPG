@@ -13,3 +13,6 @@ Since then I added a few more little bits of functionality. Might expand it late
 3. Create a character.
 4. Type help for list of available commands.
 ```
+
+# Media
+![](https://i.imgur.com/2rKCTBO.png)
