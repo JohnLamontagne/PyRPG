@@ -9,22 +9,22 @@ class Monster:
     self.health = health
     self.alive = True
 
-  def Attack(self, target_character: Character):
+  def attack(self, target_character: Character):
     damage_delt = randint(0, self.damage)
-    print("Attacking " + target_character.name + " for " + str(damage_delt) + " damage!")
-    target_character.InflictDamage(damage_delt)
+    print(self.name + " attacks " + target_character.name + " for " + str(damage_delt) + " damage!")
+    target_character.inflict_damage(damage_delt)
 
-  def Die(self):
+  def die(self):
     if self.alive:
       self.alive = False
       print("Oh no i've died")
     else:
       print("You can only die once")
 
-  def InflictDamage(self, damage_amount):
+  def inflict_damage(self, damage_amount):
     self.health -= damage_amount
 
     print(self.name + " has " + str(self.health) + " left.")
 
     if self.health <= 0:
-      self.Die()
+      self.die()
