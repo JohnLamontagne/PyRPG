@@ -8,22 +8,22 @@ class Character:
     self.damage = 10
     print("Your character has been created with name " + self.name)
 
-  def Die(self):
+  def die(self):
     if self.alive:
       self.alive = False
-      print("Oh no i've died")
+      print("Oh dear, you are dead!")
     else:
       print("You can only die once")
 
-  def InflictDamage(self, damage_amount):
+  def inflict_damage(self, damage_amount):
     self.health -= damage_amount  
 
-    print(self.name + " has " + str(self.health) + " left.")
+    print(self.name + " has " + str(self.health) + " health left.")
 
     if self.health <= 0:
       self.Die()
 
-  def Attack(self, target_monster):
+  def attack(self, target_monster):
     damage_delt = randint(0, self.damage)
-    print("Attacking " + target_monster.name + " for " + str(damage_delt) + " damage!")
-    target_monster.InflictDamage(damage_delt)
+    print(self.name + " attacks " + target_monster.name + " for " + str(damage_delt) + " damage!")
+    target_monster.inflict_damage(damage_delt)
