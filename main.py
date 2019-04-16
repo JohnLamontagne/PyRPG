@@ -1,48 +1,72 @@
 from random import randint
-from character import Character
-from monster import Monster
+import statemachine
+import gameworld
 
-our_character = None
 
-monsters = {}
+stop_game = False
+
+
+state_machine = None
+
+def handle_suicide():
+  gameworld.our_character.Die()
+
+def handle_wander():
+  state_machine.current_state = statemachine.WanderState()
+
+def handle_attack():
+  print("What monster do you want to attack? ")
+  monster_to_attack = input()
+
+  if monster_to_attack in monsters:
+    gameworld.our_character.Attack(monsters[monster_to_attack])
+  else:
+    print("That monster does not exist!")
+
+def handle_exit():
+  global stop_game
+  stop_game = True
+
+# You can create  a dictionary
+# that stores functions at keys
+# so you could do command_handlers[user_input]()
+# and also use the dictionary to check
+# whether the command is valid
+# by checking whether it's a key within the #d ictionary
+def handle_help():
+  available_commands = ", ".join(command_handlers)
+
+  print("Available commands: " + available_commands)
+
+
+command_handlers = {
+  "suicide": handle_suicide,
+  "wander": handle_wander,
+  "attack": handle_attack,
+  "help": handle_help
+}
 
 def GameLoop():
+  global state_machine
 
-  global our_character
+  gameworld.init()
+
+  state_machine = statemachine.StateMachine(None)
   
-  while True:
-    print("Enter action: ")
-    user_input = input()
+  while not stop_game:
+    # ask the user what to do next if we there's no next state
+    if state_machine.current_state is None:
+      print("Enter action: ")
+      user_input = input()
 
-    if 'exit' in user_input:
-      break
-    elif 'suicide' in user_input:
-      our_character.Die()
-    elif 'attack' in user_input:
-      print("What monster do you want to attack? ")
-      monster_to_attack = input()
-
-      if monster_to_attack in monsters:
-        our_character.Attack(monsters[monster_to_attack])
+      if user_input in command_handlers:
+        command_handlers[user_input]()
       else:
-        print("That monster does not exist!")
-    elif 'wander':
-      if randint(0, 2) == 2:
-        print("You encounter a monster!")
-        monsters['minotaur'].Attack(our_character)
-      else:
-        print("You wander down the road")
+        print("Invalid command: " + user_input)
+    else:
+      state_machine.update()
 
 def main():
-  global our_character
-  global monsters
-
-  print("What is your characters name? ")
-  characters_name = input()
-  our_character = Character(characters_name)
-  
-  monsters['minotaur'] = Monster("Minotaur", 5, 10, 100)
-
   GameLoop()
 
 main()
