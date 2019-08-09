@@ -27,12 +27,6 @@ def handle_exit():
   global stop_game
   stop_game = True
 
-# You can create  a dictionary
-# that stores functions at keys
-# so you could do command_handlers[user_input]()
-# and also use the dictionary to check
-# whether the command is valid
-# by checking whether it's a key within the #d ictionary
 def handle_help():
   available_commands = ", ".join(command_handlers)
 
